@@ -5,7 +5,7 @@ view: gcp_billing_export {
         *,
         ROW_NUMBER() OVER () pk
       FROM
-        gcp_logs.gcp_billing_export_v1_#####_#####_######
+        bigquery_audit.gcp_billing_export_v1_0134FA_56B5AA_7FB10B
       WHERE
         {% condition date_filter %} _PARTITIONTIME {% endcondition %} ;;
   }
@@ -38,7 +38,7 @@ view: gcp_billing_export {
           AND ${usage_start_year} = EXTRACT(year from CURRENT_TIMESTAMP());;
   }
 
-  dimension: billing_date {
+  dimension: billing_day_of_month {
     type: string
     label_from_parameter: date_view
     sql: EXTRACT({% parameter date_view %} from ${usage_start_raw}) ;;
@@ -52,6 +52,7 @@ view: gcp_billing_export {
   dimension: cost {
     description: "The cost associated to an SKU, between Start Date and End Date"
     type: number
+    value_format: "$0.00000"
     sql: ${TABLE}.cost ;;
   }
 
