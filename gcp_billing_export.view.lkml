@@ -60,16 +60,8 @@ view: gcp_billing_export {
     description: "The total cost associated to the SKU, between the Start Date and End Date"
     type: sum
     sql: ${TABLE}.cost ;;
-    value_format_name: decimal_2
-    html: {% if currency._value == 'GBP' %}
-            <a href="{{ link }}"> £{{ rendered_value }}</a>
-          {% elsif currency == 'USD' %}
-            <a href="{{ link }}"> ${{ rendered_value }}</a>
-          {% elsif currency == 'EUR' %}
-            <a href="{{ link }}"> €{{ rendered_value }}</a>
-          {% else %}
-            <a href="{{ link }}"> {{ rendered_value }} {{ currency._value }}</a>
-          {% endif %} ;;
+    value_format: "$0.00"
+
     drill_fields: [gcp_billing_export_project.name, gcp_billing_export_service.description, sku_category, gcp_billing_export_sku.description, gcp_billing_export_usage.unit, gcp_billing_export_usage.total_usage, total_cost]
   }
 
